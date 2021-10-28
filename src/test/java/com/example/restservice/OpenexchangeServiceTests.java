@@ -89,7 +89,7 @@ class OpenexchangeServiceTests {
 				.thenReturn(null);
 		String resultLatest = service.getLatestChanges();
 		String resultHistorical = service.getHistoricalChanges();
-		assertEquals("Something went wrong. Try again:)", resultHistorical);
-		assertEquals("Something went wrong. Try again:)", resultLatest);
+		assertEquals("Something went wrong. Try again :)", resultHistorical);
+		assertEquals("Something went wrong. Try again :)", resultLatest);
 	}
 }
