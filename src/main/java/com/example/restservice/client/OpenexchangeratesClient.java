@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 
-
-
 @FeignClient(name = "restClient", url = "${openexchangerates.url}")
 public interface OpenexchangeratesClient {
 
@@ -17,9 +15,7 @@ public interface OpenexchangeratesClient {
             consumes = "application/json")
     OpenexchangeModel getLatest(@RequestParam("app_id") String appId, @RequestParam("") String base, @RequestParam("") String symbols);
 
-    @GetMapping(path = "/historical/${data}.json", consumes = "application/json")
-    OpenexchangeModel getHistorical(@RequestParam("app_id") String appId, @RequestParam("") String base, @RequestParam("") String symbols);
+    @GetMapping(path = "/historical/{data}.json", consumes = "application/json")
+    OpenexchangeModel getHistorical(@PathVariable("") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate data, @RequestParam("app_id") String appId, @RequestParam("") String base, @RequestParam("") String symbols);
 
-    @GetMapping(path = "/historical/{yesterday}.json", consumes = "application/json")
-    OpenexchangeModel getYesterday(@PathVariable("") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate yesterday, @RequestParam("app_id") String appId, @RequestParam("") String base, @RequestParam("") String symbols);
 }
