@@ -1,8 +1,8 @@
 package com.example.restservice.model;
 
 public class GiphyModel {
-    private Meta meta;
-    private Data data;
+     private Meta meta;
+     private Data data;
 
     public Data getData() {
         return data;
@@ -24,7 +24,7 @@ public class GiphyModel {
 
 
 
-    public class Meta {
+    public static class Meta {
 
         private String msg;
         private Integer status;
@@ -47,7 +47,7 @@ public class GiphyModel {
 
     }
 
-    public class Data {
+    public static class Data {
         private String type;
         private String id;
 
