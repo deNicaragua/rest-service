@@ -9,7 +9,7 @@ Building and running with a Docker container.
 ***
 # Host
 ```
-[Example](http://localhost:8080)
+http://localhost:8080
 ```
 # Docker
 ### Image creation:
