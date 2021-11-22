@@ -1,0 +1,5 @@
+image:
+	docker build -t image ./
+run:
+	docker run -p 8080:8080 image
+
