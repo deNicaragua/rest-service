@@ -32,7 +32,7 @@ public class ServiceOpenexchangerates {
                     > getRate(client.getHistorical(yesterday, appId, base, rates))
                     ? rich : broke;
         } catch (NullPointerException ex) {
-            return "Something went wrong. Try again :)";
+            return ex.getMessage();
         }
     }
 
@@ -42,7 +42,7 @@ public class ServiceOpenexchangerates {
                     > getRate(client.getHistorical(data, appId, base, rates))
                     ? rich : broke;
         } catch (NullPointerException ex) {
-            return "Something went wrong. Try again :)";
+            return ex.getMessage();
         }
     }
 

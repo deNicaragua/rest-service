@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-
 @Service
 public class ServiceGiphy {
     @Value("${giphy.api_key}")
@@ -15,34 +13,17 @@ public class ServiceGiphy {
     @Value("${giphy.rich}")
     private String upper;
     @Value("${giphy.broke}")
-    private String lower;
+    private String broke;
 
     @Autowired
     private GiphyClient giphy;
 
-//узнать ссылку запроса
-    public String getRich() {
-        try {
-            return parseLink(giphy.raise(api, upper));
-        } catch (NullPointerException ex) {
-            return "Service not available. Try again :)";
-        }
+    public GiphyModel getRich() {
+        return giphy.raise(api, upper);
     }
 
-    public String getBroke() {
-        try {
-            return parseLink(giphy.lower(api, lower));
-        } catch (NullPointerException ex) {
-            return "Service not available. Try again :)";
-        }
-    }
-
-    public String parseLink(GiphyModel response) {
-        return response.getData().getId();
-    }
-
-    public Integer getStatus(GiphyModel response) {
-        return response.getMeta().getStatus();
+    public GiphyModel getBroke() {
+        return giphy.lower(api, broke);
     }
 
 }
