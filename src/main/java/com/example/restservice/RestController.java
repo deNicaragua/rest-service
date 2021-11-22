@@ -1,13 +1,15 @@
 package com.example.restservice;
 
+import com.example.restservice.model.GiphyModel;
 import com.example.restservice.service.ServiceGiphy;
 import com.example.restservice.service.ServiceOpenexchangerates;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URISyntaxException;
-
 @org.springframework.web.bind.annotation.RestController
+@RequestMapping("/")
 public class RestController {
 
     @Autowired
@@ -16,10 +18,12 @@ public class RestController {
     @Autowired
     ServiceGiphy serviceGiphy;
 
-    @GetMapping(path = "/get")
-    public String getResult() throws URISyntaxException {
-        String gif = "";
-        switch (serviceOpen.getLatestChanges()) {
+
+    @GetMapping("get")
+    public ResponseEntity<GiphyModel> getResult()  {
+        GiphyModel gif = null;
+        String tag = serviceOpen.getLatestChanges();
+        switch (tag) {
             case "rich":
                 gif = serviceGiphy.getRich();
                 break;
@@ -27,8 +31,9 @@ public class RestController {
                 gif = serviceGiphy.getBroke();
                 break;
             default:
-                gif = "Nothing";
+                break;
         }
-        return "<img src=\"" + gif + "\" style=\"width:500px;height:400px\" alt=\"The Logo\">";
+        return new ResponseEntity<>(gif, HttpStatus.OK);
+
     }
 }
