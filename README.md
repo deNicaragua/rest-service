@@ -11,6 +11,10 @@ Building and running with a Docker container.
 [Example](http://localhost:8080)
 # Docker
 ### Image creation:
-*make image*
+```
+make image
+```
 ### Start:
-*make run*
+```
+make run
+```
