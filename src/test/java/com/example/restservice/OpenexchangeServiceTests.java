@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
@@ -89,7 +90,7 @@ class OpenexchangeServiceTests {
 				.thenReturn(null);
 		String resultLatest = service.getLatestChanges();
 		String resultHistorical = service.getHistoricalChanges();
-		assertEquals("Something went wrong. Try again :)", resultHistorical);
-		assertEquals("Something went wrong. Try again :)", resultLatest);
+		assertNull(resultHistorical);
+		assertNull(resultLatest);
 	}
 }

@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -23,62 +22,52 @@ public class GifyServiceTest {
     private ServiceGiphy service;
     @MockBean
     private GiphyClient client;
-    private final GiphyModel gif = new GiphyModel();
-    private final GiphyModel broke =new GiphyModel();
+    private final GiphyModel richModel = new GiphyModel();
+    private final GiphyModel brokeModel = new GiphyModel();
+    private GiphyModel.Data data = new GiphyModel.Data();
+    private GiphyModel.Meta meta = new GiphyModel.Meta();
 
     @BeforeEach
     public void init() {
-        GiphyModel.Meta giphyMeta = new GiphyModel.Meta();
-        GiphyModel.Meta giphyMetaTwo = new GiphyModel.Meta();
-        giphyMeta.setMsg("OK");
-        giphyMeta.setStatus(200);
-        giphyMetaTwo.setMsg("NOT OK");
-        giphyMetaTwo.setStatus(400);
-
-        GiphyModel.Data giphyData = new GiphyModel.Data();
-        GiphyModel.Data giphyDataTwo = new GiphyModel.Data();
-        giphyData.setType("JSON");
-        giphyData.setId("Sgrinlegr4DGGs");
-        giphyDataTwo.setId(null);
-        giphyDataTwo.setType(null);
-
-        this.gif.setMeta(giphyMeta);
-        this.gif.setData(giphyData);
-        this.broke.setMeta(giphyMetaTwo);
-        this.broke.setData(giphyDataTwo);
+        this.richModel.setData(data);
+        this.brokeModel.setData(data);
+        this.richModel.setMeta(meta);
+        this.brokeModel.setMeta(meta);
     }
 
     @Test
     public void whenRich() {
-        when(client.raise(anyString(), anyString())).thenReturn(this.gif);
-        Integer resultRich = service.getStatus(this.gif);
-        String link = service.getRich();
-        assertTrue(link.startsWith("https://media0.giphy"));
-        assertTrue(link.endsWith("/giphy.gif"));
-        assertEquals(200, resultRich);
+        richModel.getData().setId("spvp4lkfspkwfe4");
+        richModel.getMeta().setStatus(200);
+        when(client.raise(anyString(), anyString())).thenReturn(richModel);
+        GiphyModel result = service.getRich();
+        assertEquals(result.getMeta().getStatus(),richModel.getMeta().getStatus());
+        assertEquals(result.getData().getId(), richModel.getData().getId());
     }
 
     @Test
     public void whenBroke() {
-        when(client.lower(anyString(), anyString())).thenReturn(this.gif);
-        Integer resultBroke = service.getStatus(this.gif);
-        String link = service.getBroke();
-        assertTrue(link.startsWith("https://media0.giphy"));
-        assertTrue(link.endsWith("/giphy.gif"));
-        assertEquals(200, resultBroke);
+        brokeModel.getData().setId("asrl5550903lk");
+        brokeModel.getMeta().setStatus(200);
+        when(client.lower(anyString(), anyString())).thenReturn(brokeModel);
+        GiphyModel result = service.getBroke();
+        assertEquals(result.getMeta().getStatus(),brokeModel.getMeta().getStatus());
+        assertEquals(result.getData().getId(),brokeModel.getData().getId());
     }
 
     @Test
     public void whenNullReturn() {
-        when(client.raise(anyString(), anyString())).thenReturn(null);
-        when(client.lower(anyString(), anyString())).thenReturn(null);
-        Integer statusRich = service.getStatus(this.broke);
-        Integer statusBroke = service.getStatus(this.broke);
-        String resultRich = service.getRich();
-        String resultBroke = service.getBroke();
-        assertEquals(400, statusRich);
-        assertEquals(400, statusBroke);
-        assertEquals("Service not available. Try again :)", resultRich);
-        assertEquals("Service not available. Try again :)", resultBroke);
+        richModel.getMeta().setMsg("feignError");
+        brokeModel.getMeta().setMsg("feignError");
+        richModel.getMeta().setStatus(400);
+        brokeModel.getMeta().setStatus(400);
+        when(client.raise(anyString(), anyString())).thenReturn(richModel);
+        when(client.lower(anyString(), anyString())).thenReturn(brokeModel);
+        GiphyModel resultRich = service.getRich();
+        GiphyModel resultBroke = service.getBroke();
+        assertEquals(resultRich.getMeta().getStatus(),richModel.getMeta().getStatus());
+        assertEquals(resultBroke.getMeta().getStatus(),brokeModel.getMeta().getStatus());
+        assertEquals("feignError", resultRich.getMeta().getMsg());
+        assertEquals("feignError", resultBroke.getMeta().getMsg());
     }
 }
