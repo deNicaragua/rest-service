@@ -36,6 +36,16 @@ bootJar {
 	mainClassName = 'com.example.restservice.RestServiceApplication'
 }
 
+task copyJarToBin {
+	doLast {
+		copy {
+			from './build/libs/rest-service-0.0.1-SNAPSHOT.jar'
+			into "./"
+		}
+
+	}
+}
+
 test {
 	useJUnitPlatform()
 }
