@@ -15,8 +15,4 @@ public class RestServiceApplication {
 		SpringApplication.run(RestServiceApplication.class, args);
 	}
 
-	@Bean
-	Logger.Level feignLoggerLevel() {
-		return Logger.Level.FULL;
-	}
 }
