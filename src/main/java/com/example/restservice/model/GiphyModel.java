@@ -4,6 +4,13 @@ public class GiphyModel {
      private Meta meta;
      private Data data;
 
+    public GiphyModel(Meta meta) {
+        this.meta = meta;
+    }
+
+    public GiphyModel() {
+    }
+
     public Data getData() {
         return data;
     }
